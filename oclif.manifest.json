@@ -1,0 +1,209 @@
+{
+  "version": "0.0.1",
+  "commands": {
+    "6st:manifest": {
+      "id": "6st:manifest",
+      "description": "generates a package.xml manifest based on git changes made in a branch.",
+      "strict": true,
+      "usage": "<%= command.id %> [-f] [-o <string>] [-s <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]",
+      "pluginName": "6street-cli",
+      "pluginAlias": "6street-cli",
+      "pluginType": "core",
+      "aliases": [],
+      "examples": [
+        "$  sfdx 6st:manifest"
+      ],
+      "flags": {
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "description": "format output as json",
+          "allowNo": false
+        },
+        "loglevel": {
+          "name": "loglevel",
+          "type": "option",
+          "description": "logging level for this command invocation",
+          "required": false,
+          "helpValue": "(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)",
+          "multiple": false,
+          "options": [
+            "trace",
+            "debug",
+            "info",
+            "warn",
+            "error",
+            "fatal",
+            "TRACE",
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR",
+            "FATAL"
+          ],
+          "default": "warn"
+        },
+        "force": {
+          "name": "force",
+          "type": "boolean",
+          "char": "f",
+          "description": "overwrites an existing package.xml in the manifest folder if it exists",
+          "allowNo": false
+        },
+        "output": {
+          "name": "output",
+          "type": "option",
+          "char": "o",
+          "description": "Selected output folder for the manifest file",
+          "multiple": false,
+          "default": "./manifest"
+        },
+        "source": {
+          "name": "source",
+          "type": "option",
+          "char": "s",
+          "description": "Branch or commit we're comparing to for the diff",
+          "multiple": false,
+          "default": "develop"
+        }
+      },
+      "args": {
+        "file": {
+          "name": "file"
+        }
+      },
+      "flagsConfig": {
+        "force": {
+          "kind": "boolean",
+          "char": "f",
+          "description": "overwrites an existing package.xml in the manifest folder if it exists",
+          "allowNo": false,
+          "type": "boolean"
+        },
+        "output": {
+          "kind": "string",
+          "char": "o",
+          "description": "Selected output folder for the manifest file",
+          "default": "./manifest",
+          "input": [],
+          "multiple": false,
+          "type": "option"
+        },
+        "source": {
+          "kind": "string",
+          "char": "s",
+          "description": "Branch or commit we're comparing to for the diff",
+          "default": "develop",
+          "input": [],
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "requiresProject": true
+    },
+    "6st:b2b:org": {
+      "id": "6st:b2b:org",
+      "description": "print a greeting and your org IDs",
+      "strict": true,
+      "usage": "<%= command.id %> [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]",
+      "pluginName": "6street-cli",
+      "pluginAlias": "6street-cli",
+      "pluginType": "core",
+      "aliases": [],
+      "examples": [
+        "sfdx 6st:b2b:org --targetusername myOrg@example.com --targetdevhubusername devhub@org.com",
+        "sfdx 6st:b2b:org --name myname --targetusername myOrg@example.com"
+      ],
+      "flags": {
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "description": "format output as json",
+          "allowNo": false
+        },
+        "loglevel": {
+          "name": "loglevel",
+          "type": "option",
+          "description": "logging level for this command invocation",
+          "required": false,
+          "helpValue": "(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)",
+          "multiple": false,
+          "options": [
+            "trace",
+            "debug",
+            "info",
+            "warn",
+            "error",
+            "fatal",
+            "TRACE",
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR",
+            "FATAL"
+          ],
+          "default": "warn"
+        },
+        "targetdevhubusername": {
+          "name": "targetdevhubusername",
+          "type": "option",
+          "char": "v",
+          "description": "username or alias for the dev hub org; overrides default dev hub org",
+          "multiple": false
+        },
+        "targetusername": {
+          "name": "targetusername",
+          "type": "option",
+          "char": "u",
+          "description": "username or alias for the target org; overrides default target org",
+          "multiple": false
+        },
+        "apiversion": {
+          "name": "apiversion",
+          "type": "option",
+          "description": "override the api version used for api requests made by this command",
+          "multiple": false
+        },
+        "name": {
+          "name": "name",
+          "type": "option",
+          "char": "n",
+          "description": "name to print",
+          "multiple": false
+        },
+        "force": {
+          "name": "force",
+          "type": "boolean",
+          "char": "f",
+          "description": "example boolean flag",
+          "allowNo": false
+        }
+      },
+      "args": {
+        "file": {
+          "name": "file"
+        }
+      },
+      "flagsConfig": {
+        "name": {
+          "kind": "string",
+          "char": "n",
+          "description": "name to print",
+          "input": [],
+          "multiple": false,
+          "type": "option"
+        },
+        "force": {
+          "kind": "boolean",
+          "char": "f",
+          "description": "example boolean flag",
+          "allowNo": false,
+          "type": "boolean"
+        }
+      },
+      "requiresUsername": true,
+      "supportsDevhubUsername": true,
+      "requiresProject": false
+    }
+  }
+}
