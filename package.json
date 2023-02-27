@@ -1,21 +1,21 @@
 {
   "dependencies": {
-    "eslint": "^8.31.0",
-    "@oclif/core": "^1",    
+    "@oclif/core": "^1",
     "@salesforce/command": "^5",
     "@salesforce/core": "^3",
     "@salesforce/sf-plugins-core": "latest",
+    "eslint": "^8.31.0",
     "fs-extra": "^7.0.1",
     "sfdx-git-delta": "latest",
     "tslib": "^2"
   },
-  "name": "6street-cli",
+  "name": "@6street/6street-cli",
   "description": "Plugin for 6Street Digital",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "author": "Mike Burke",
   "bugs": "https://github.com/6Street/6street-cli/issues",
   "devDependencies": {
-    "@oclif/test": "^2",    
+    "@oclif/test": "^2",
     "@salesforce/prettier-config": "latest",
     "@salesforce/ts-sinon": "^1",
     "@types/chai": "^4",

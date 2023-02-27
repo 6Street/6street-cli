@@ -2,32 +2,32 @@
 
 Plugin for 6Street Digital
 
-[![Version](https://img.shields.io/npm/v/6street-cli.svg)](https://npmjs.org/package/6street-cli)
-[![CircleCI](https://circleci.com/gh/avatarkava/6street-cli/tree/master.svg?style=shield)](https://circleci.com/gh/avatarkava/6street-cli/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/avatarkava/6street-cli?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/6street-cli/branch/master)
-[![Greenkeeper](https://badges.greenkeeper.io/avatarkava/6street-cli.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/github/avatarkava/6street-cli/badge.svg)](https://snyk.io/test/github/avatarkava/6street-cli)
-[![Downloads/week](https://img.shields.io/npm/dw/6street-cli.svg)](https://npmjs.org/package/6street-cli)
-[![License](https://img.shields.io/npm/l/6street-cli.svg)](https://github.com/avatarkava/6street-cli/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/6street-cli.svg)](https://npmjs.com/package/@6street/6street-cli)
+[![Known Vulnerabilities](https://snyk.io/test/github/6street/6street-cli/badge.svg)](https://snyk.io/test/github/6street/6street-cli)
+[![Downloads/week](https://img.shields.io/npm/dw/6street-cli.svg)](https://npmjs.com/package/@6street/6street-cli)
+[![License](https://img.shields.io/npm/l/6street-cli.svg)](https://github.com/6street/6street-cli/blob/main/package.json)
 
 <!-- toc -->
 * [6street-cli](#6street-cli)
-* [Debugging your plugin](#debugging-your-plugin)
 <!-- tocstop -->
-  <!-- install -->
-  <!-- usage -->
+
+<!-- install -->
+<!-- installstop -->
+
+<!-- usage -->
 ```sh-session
-$ npm install -g 6street-cli
+$ npm install -g @6street/6street-cli
 $ sfdx COMMAND
 running command...
 $ sfdx (--version)
-6street-cli/0.0.1 win32-x64 node-v16.14.2
+@6street/6street-cli/0.0.4 win32-x64 node-v16.14.2
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
 ...
 ```
 <!-- usagestop -->
+
 <!-- commands -->
 * [`sfdx 6st:b2b:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-6stb2borg--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 * [`sfdx 6st:manifest [-f] [-o <string>] [-s <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-6stmanifest--f--o-string--s-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
@@ -63,7 +63,7 @@ EXAMPLES
   $ sfdx 6st:b2b:org --name myname --targetusername myOrg@example.com
 ```
 
-_See code: [src/commands/6st/b2b/org.ts](https://github.com/avatarkava/6street-cli/blob/v0.0.1/src/commands/6st/b2b/org.ts)_
+_See code: [src/commands/6st/b2b/org.ts](https://github.com/6street/6street-cli/blob/v0.0.4/src/commands/6st/b2b/org.ts)_
 
 ## `sfdx 6st:manifest [-f] [-o <string>] [-s <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -92,34 +92,6 @@ EXAMPLES
   $  sfdx 6st:manifest
 ```
 
-_See code: [src/commands/6st/manifest.ts](https://github.com/avatarkava/6street-cli/blob/v0.0.1/src/commands/6st/manifest.ts)_
+_See code: [src/commands/6st/manifest.ts](https://github.com/6street/6street-cli/blob/v0.0.4/src/commands/6st/manifest.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
-
-# Debugging your plugin
-
-We recommend using the Visual Studio Code (VS Code) IDE for your plugin development. Included in the `.vscode` directory of this plugin is a `launch.json` config file, which allows you to attach a debugger to the node process when running your commands.
-
-To debug the `hello:org` command:
-
-1. Start the inspector
-
-If you linked your plugin to the sfdx cli, call your command with the `dev-suspend` switch:
-
-```sh-session
-$ sfdx hello:org -u myOrg@example.com --dev-suspend
-```
-
-Alternatively, to call your command using the `bin/run` script, set the `NODE_OPTIONS` environment variable to `--inspect-brk` when starting the debugger:
-
-```sh-session
-$ NODE_OPTIONS=--inspect-brk bin/run hello:org -u myOrg@example.com
-```
-
-2. Set some breakpoints in your command code
-3. Click on the Debug icon in the Activity Bar on the side of VS Code to open up the Debug view.
-4. In the upper left hand corner of VS Code, verify that the "Attach to Remote" launch configuration has been chosen.
-5. Hit the green play button to the left of the "Attach to Remote" launch configuration window. The debugger should now be suspended on the first line of the program.
-6. Hit the green play button at the top middle of VS Code (this play button will be to the right of the play button that you clicked in step #5).
-   <br><img src=".images/vscodeScreenshot.png" width="480" height="278"><br>
-   Congrats, you are debugging!
