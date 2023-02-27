@@ -13,7 +13,7 @@ Messages.importMessagesDirectory(__dirname);
 
 // Load the specific messages for this file. Messages from @salesforce/command, @salesforce/core,
 // or any library that is using the messages framework can also be loaded this way.
-const messages = Messages.loadMessages('6street-cli', 'org');
+const messages = Messages.loadMessages('@6street/6street-cli', 'org');
 
 export default class Manifest extends SfdxCommand {
   public static description = `generates a package.xml manifest based on git changes made in a branch.`;
