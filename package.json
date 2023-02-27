@@ -13,7 +13,7 @@
   "description": "Plugin for 6Street Digital",
   "version": "0.0.1",
   "author": "Mike Burke",
-  "bugs": "https://github.com/6StreetDigital/6street-cli/issues",
+  "bugs": "https://github.com/6Street/6street-cli/issues",
   "devDependencies": {
     "@oclif/test": "^2",    
     "@salesforce/prettier-config": "latest",
@@ -48,7 +48,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/6StreetDigital/6street-cli",
+  "homepage": "https://github.com/6Street/6street-cli",
   "keywords": [
     "sfdx-plugin"
   ],
