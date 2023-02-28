@@ -8,33 +8,29 @@ Plugin for 6Street Digital
 [![License](https://img.shields.io/npm/l/6street-cli.svg)](https://github.com/6street/6street-cli/blob/main/package.json)
 
 <!-- toc -->
-
-- [6street-cli](#6street-cli)
+* [6street-cli](#6street-cli)
 <!-- tocstop -->
 
 <!-- install -->
 <!-- installstop -->
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g @6street/6street-cli
 $ sfdx COMMAND
 running command...
 $ sfdx (--version)
-@6street/6street-cli/0.0.4 win32-x64 node-v16.14.2
+@6street/6street-cli/0.1.0 win32-x64 node-v16.14.2
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 <!-- commands -->
-
-- [`sfdx 6st:b2b:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-6stb2borg--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-- [`sfdx 6st:manifest [-f] [-o <string>] [-s <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-6stmanifest--f--o-string--s-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx 6st:b2b:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-6stb2borg--n-string--f--v-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx 6st:manifest [-f] [-o <string>] [-s <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-6stmanifest--f--o-string--s-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
 ## `sfdx 6st:b2b:org [-n <string>] [-f] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -67,7 +63,7 @@ EXAMPLES
   $ sfdx 6st:b2b:org --name myname --targetusername myOrg@example.com
 ```
 
-_See code: [src/commands/6st/b2b/org.ts](https://github.com/6street/6street-cli/blob/v0.0.4/src/commands/6st/b2b/org.ts)_
+_See code: [src/commands/6st/b2b/org.ts](https://github.com/6street/6street-cli/blob/v0.1.0/src/commands/6st/b2b/org.ts)_
 
 ## `sfdx 6st:manifest [-f] [-o <string>] [-s <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -83,8 +79,8 @@ FLAGS
                                                                                     in the manifest folder if it exists
   -o, --output=<value>                                                              [default: ./manifest] Selected
                                                                                     output folder for the manifest file
-  -s, --source=<value>                                                              [default: develop] Branch or commit
-                                                                                    we're comparing to for the diff
+  -s, --source=<value>                                                              Branch or commit we're comparing to
+                                                                                    for the diff
   --json                                                                            format output as json
   --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
                                                                                     this command invocation
@@ -96,7 +92,6 @@ EXAMPLES
   $  sfdx 6st:manifest
 ```
 
-_See code: [src/commands/6st/manifest.ts](https://github.com/6street/6street-cli/blob/v0.0.4/src/commands/6st/manifest.ts)_
-
+_See code: [src/commands/6st/manifest.ts](https://github.com/6street/6street-cli/blob/v0.1.0/src/commands/6st/manifest.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
