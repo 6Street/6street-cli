@@ -1,4 +1,4 @@
-// import * as os from 'os';
+//import * as os from 'os';
 import * as fs from 'fs';
 import { execSync } from 'child_process';
 
@@ -13,7 +13,7 @@ Messages.importMessagesDirectory(__dirname);
 
 // Load the specific messages for this file. Messages from @salesforce/command, @salesforce/core,
 // or any library that is using the messages framework can also be loaded this way.
-const messages = Messages.loadMessages('@6street/6street-cli', 'org');
+// const messages = Messages.loadMessages('@6street/6street-cli', 'org');
 
 export default class Manifest extends SfdxCommand {
   public static description = `generates a package.xml manifest based on git changes made in a branch.`;
@@ -35,32 +35,19 @@ export default class Manifest extends SfdxCommand {
     source: flags.string({
       char: 's',
       description: "Branch or commit we're comparing to for the diff",
-      default: 'develop',
     }),
   };
-
-  // Comment this out if your command does not require an org username
-  //   protected static requiresUsername = true;
-
-  // Comment this out if your command does not support a hub org username
-  //   protected static supportsDevhubUsername = true;
 
   // Set this to true if your command requires a project workspace; 'requiresProject' is false by default
   protected static requiresProject = true;
 
   public async run(): Promise<AnyJson> {
-    // Organization will always return one result, but this is an example of throwing an error
-    // The output and --json will automatically be handled for you.
-    if (false) {
-      throw new SfError(messages.getMessage('errorNoOrgResults', [this.org.getOrgId()]));
+    if (this.hasUncommittedChanges()) {
+      throw new SfError('This folder has uncommitted changes - please commit before running this');
     }
 
     const currentBranch = this.getCurrentBranch();
-    this.ux.log(`Current branch ${currentBranch}`);
 
-    // Does the folder for output exist?
-    // Do we have to make it?
-    // Do we overwrite the exiting file?
     let outputFolder = this.flags.output;
     if (outputFolder === './manifest') {
       const branchPath = currentBranch.split('/');
@@ -69,44 +56,88 @@ export default class Manifest extends SfdxCommand {
     if (!fs.existsSync(outputFolder)) {
       fs.mkdirSync(outputFolder);
     }
-    this.ux.log(`Writing to ` + outputFolder);
 
-    // this.ux.startSpinner('Looking for changes inside this branch...');
-    let forkPoint = this.getForkPoint(this.flags.source);
+    this.ux.startSpinner(`Finding common ancestor commit for ${currentBranch}...`);
+    let fromCommit = this.flags.source ?? (await this.getSourceCommit(currentBranch));
+    this.ux.stopSpinner();
 
-    this.ux.log(`Calculating difference between HEAD and ${forkPoint}...`);
-    const work = await sgd({
-      to: 'HEAD', // commit sha to where the diff is done. [default : "HEAD"]
-      from: forkPoint.trim(), // (required) commit sha from where the diff is done. [default : git rev-list --max-parents=0 HEAD]
-      output: outputFolder, // source package specific output. [default : "./output"]
-      //   apiVersion: 'latest', // salesforce API version. [default : latest]
-      repo: '.', // git repository location. [default : "."]
-      source: '.',
-    });
-    // Handle the /profiles garbage?
-    // Output a .csv for easy paste into the deployment doc?
+    this.ux.startSpinner(`Calculating difference between HEAD and detected common ancestor: ${fromCommit}...`);
+    try {
+      await sgd({
+        to: 'HEAD', // commit sha to where the diff is done. [default : "HEAD"]
+        from: fromCommit, // (required) commit sha from where the diff is done. [default : git rev-list --max-parents=0 HEAD]
+        output: outputFolder, // source package specific output. [default : "./output"]
+        //   apiVersion: 'latest', // salesforce API version. [default : latest]
+        repo: '.', // git repository location. [default : "."]
+        source: '.',
+      });
+    } catch (err) {
+      throw new SfError('error getting diff: ' + err);
+    }
+    this.ux.stopSpinner();
+    this.ux.log(`Manifest data written to ${outputFolder}.`);
 
-    this.ux.styledJSON(work);
+    this.cleanupFiles(outputFolder);
 
-    // if (this.flags.force && this.args.file) {
-    //   this.ux.log(`You input --force and a file: ${this.args.file as string}`);
-    // }
+    this.ux.styledHeader(`Manifest data is available in ${outputFolder}`);
+
+    // @TODO: Handle the /profiles?
+    // @TODO Output a .csv based on the package.xml for easy paste into the deployment doc?
 
     // Return an object to be displayed with --json
     return {};
   }
 
-  private getForkPoint(branch: string): string {
-    return execSync(`git merge-base --fork-point ${branch}`).toString();
+  private getSourceCommit(currentBranch: string): any {
+    const commands = [
+      'git show-branch -a', //  Get git branch
+      "grep '*'",
+      `grep -v "${currentBranch}"`,
+      'head -n1',
+      "sed 's/.*\\[\\(.*\\)\\].*/\\1/'",
+      "sed 's/[\\^~].*//'",
+    ];
+
+    const sourceBranch = execSync(commands.join(' | '), { stdio: [null, 'pipe', 'pipe'] })
+      .toString()
+      .trim();
+
+    const sourceCommit = execSync(`git merge-base ${sourceBranch} ${currentBranch}`);
+    return sourceCommit.toString().trim();
+  }
+
+  private hasUncommittedChanges(): boolean {
+    const matchingLines = execSync(`git status --untracked-files=no --porcelain | wc -l`).toString();
+    return parseInt(matchingLines) > 0;
   }
 
   private getCurrentBranch(): string {
     try {
       let currentBranch = execSync(`git symbolic-ref --short HEAD`).toString().trim();
-      this.ux.log(`Current branch ${currentBranch}`);
+      this.ux.styledHeader(`Current branch detected: ${currentBranch}`);
       return currentBranch;
     } catch (err) {
       throw new SfError('error getting branch name: ' + err);
+    }
+  }
+
+  private cleanupFiles(outputFolder) {
+    this.ux.log(`Cleaning up ${outputFolder}...`);
+
+    const oldPackageFolder = outputFolder + '/package';
+    const oldFile = oldPackageFolder + '/package.xml';
+    const newFile = outputFolder + '/package.xml';
+
+    // Clean up package.xml into the root of the outputFolder
+    fs.renameSync(oldFile, newFile);
+    fs.rmSync(oldPackageFolder, { recursive: true });
+
+    // Also remove the entire destructiveChanges folder if we don't actually have anything
+    const destructiveChangeFolder = outputFolder + '/destructiveChanges';
+    const destructiveChangesFile = fs.readFileSync(`${destructiveChangeFolder}/destructiveChanges.xml`);
+    if (!destructiveChangesFile.includes('<types>')) {
+      this.ux.log(`No destructive changes found. Suppressing output...`);
+      fs.rmSync(`${destructiveChangeFolder}`, { recursive: true });
     }
   }
 }
